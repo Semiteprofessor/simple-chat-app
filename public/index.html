@@ -10,10 +10,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="./style.css" />
     <title>Chat App</title>
   </head>
   <body>
-    <h1>iChat </h1>
+    <h1 class="title">iChat <i class="far fa-comment"></i></h1>
     <div class="main">
       <div class="name">
         <span><i class="far fa-user"></i></span>
@@ -40,11 +41,24 @@
           </p>
         </li>
         <li class="message-feedback">
-          <p class="feedback" id="feedback">
-            Lagbaja is typing...
-          </p>
+          <p class="feedback" id="feedback">Lagbaja is typing...</p>
         </li>
       </ul>
+
+      <form class="message-form" id="message-form">
+        <input
+          type="text"
+          name="message"
+          id="message-input"
+          class="message-input"
+        />
+        <div class="v-divider"></div>
+        <button type="submit" class="send-btn">
+          Send <span> <i class="fas fa-paper-plane"></i></span>
+        </button>
+      </form>
+      <h3 class="clients" id="clients-total"></h3>
+      -total
     </div>
   </body>
 </html>
