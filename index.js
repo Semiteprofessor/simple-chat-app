@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const displayRoutes = require("express-routemap");
+const io = require("socket.io");
 const path = require("path");
 const port = process.env.PORT;
 
@@ -23,6 +24,10 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+io.on("connection", (socket) => {
+  console.log("Client connected" + socket.id);
+})
 
 // sequelize
 //   .authenticate()
