@@ -123,4 +123,17 @@ body {
   padding: 0 20px;
   outline: none;
   background-color: #fff;
+  cursor: pointer;
+}
+
+.v-divider {
+  height: 48px;
+  width: 2px;
+  background-color: #f6f6f6;
+}
+
+.clients-total {
+  font-size: 16px;
+  margin: 20px 0;
+  color: #7e7e7e;
 }
