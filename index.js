@@ -36,13 +36,20 @@ const io = require("socket.io")(server, {
   },
 });
 
-io.on("connection", (socket) => {
+const onConnected = (socket) => {
   console.log(`Client connected: ${socket.id}`);
+
+  socket.on("chat message", (msg) => {
+    console.log(`Message from ${socket.id}: ${msg}`);
+    io.emit("chat message", msg);
+  });
 
   socket.on("disconnect", () => {
     console.log(`Client disconnected: ${socket.id}`);
   });
-});
+};
+
+io.on("connection", onConnected);
 
 // sequelize
 //   .authenticate()
