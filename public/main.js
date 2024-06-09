@@ -36,10 +36,16 @@ socket.on("clients-total", (data) => {
 });
 
 socket.on("chat-message", (data) => {
-  const div = document.createElement("div");
-  div.classList.add("message");
-  div.innerHTML = `<p><strong>${data.name}:</strong> ${
-    data.message
-  }</p><p>${data.dateTime.toLocaleString()}</p>`;
-  messageContainer.appendChild(div);
+  addMessagetoUI();
 });
+
+const addMessagetoUI = () => {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+  messageElement.innerHTML = `
+    <strong>${data.name}:</strong> ${data.message}
+    <span class="timestamp">${data.dateTime.toLocaleTimeString()}</span>
+    `;
+  messageContainer.appendChild(messageElement);
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+};
