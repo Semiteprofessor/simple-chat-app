@@ -55,6 +55,10 @@ const onConnected = (socket) => {
     socketConnected.delete(socket.id);
     io.emit("clients-total", socketConnected.size);
   });
+  socket.on("send-message", (data) => {
+    console.log(data);
+    socket.broadcast.emit("chat-message", data);
+  });
 };
 
 io.on("connection", onConnected);
