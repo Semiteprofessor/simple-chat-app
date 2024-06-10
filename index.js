@@ -36,16 +36,24 @@ const io = require("socket.io")(server, {
   },
 });
 
+let socketConnected = new Set();
+
 const onConnected = (socket) => {
   console.log(`Client connected: ${socket.id}`);
 
-  socket.on("chat message", (msg) => {
-    console.log(`Message from ${socket.id}: ${msg}`);
-    io.emit("chat message", msg);
-  });
+  socketConnected.add(socket.id);
+
+  // socket.on("chat message", (msg) => {
+  //   console.log(`Message from ${socket.id}: ${msg}`);
+  //   io.emit("chat message", msg);
+  // });
+
+  io.emit("clients-total", socketConnected.size);
 
   socket.on("disconnect", () => {
     console.log(`Client disconnected: ${socket.id}`);
+    socketConnected.delete(socket.id);
+    io.emit("clients-total", socketConnected.size);
   });
 };
 
