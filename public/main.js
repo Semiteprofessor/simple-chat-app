@@ -1,3 +1,4 @@
+
 const socket = io();
 
 const clientTotal = document.getElementById("clients-total");
@@ -32,7 +33,7 @@ socket.on("chat-message", (data) => {
 
 const addMessageToUI = (isOwnMessage, data) => {
   const messageElement = `
-  <li class="message ${isOwnMessage ? "right" : "left"}">
+  <li class="${isOwnMessage ? "message-right" : "message-left"}">
     <p class="message">
         ${data.message}
         <span>${data.name} &#xb7; ${moment(data.dateTime).fromNow()}</span>
