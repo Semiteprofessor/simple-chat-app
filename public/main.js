@@ -11,6 +11,10 @@ messageForm.addEventListener("submit", (e) => {
   sendMessage();
 });
 
+socket.on("clients-total", (data) => {
+  clientTotal.innerText = `Total clients: ${data}`;
+});
+
 const sendMessage = () => {
   const data = {
     name: nameInput.value,
@@ -18,34 +22,23 @@ const sendMessage = () => {
     dateTime: new Date(),
   };
   socket.emit("send-message", data);
+  addMessageToUI(true, data);
   messageInput.value = "";
-  messageContainer.scrollTop = messageContainer.scrollHeight;
-  nameInput.focus();
-  nameInput.disabled = true;
-  setTimeout(() => {
-    nameInput.disabled = false;
-    nameInput.focus();
-  }, 3000);
-  nameInput.blur();
-  messageInput.blur();
-  return false;
 };
 
-socket.on("clients-total", (data) => {
-  clientTotal.innerText = `Total clients: ${data}`;
-});
-
 socket.on("chat-message", (data) => {
-  addMessagetoUI();
+  addMessageToUI(false, data);
 });
 
-const addMessagetoUI = () => {
-  const messageElement = document.createElement("div");
-  messageElement.classList.add("message");
-  messageElement.innerHTML = `
-    <strong>${data.name}:</strong> ${data.message}
-    <span class="timestamp">${data.dateTime.toLocaleTimeString()}</span>
-    `;
-  messageContainer.appendChild(messageElement);
-  messageContainer.scrollTop = messageContainer.scrollHeight;
+const addMessageToUI = (isOwnMessage, data) => {
+  const messageElement = `
+  <li class="message ${isOwnMessage ? "right" : "left"}">
+    <p class="message">
+        ${data.message}
+        <span>${data.name} &#xb7; ${moment(data.dateTime).fromNow()}</span>
+    </p>
+  </li>
+  `;
+
+  messageContainer.innerHTML += messageElement;
 };
