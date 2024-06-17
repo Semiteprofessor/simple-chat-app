@@ -74,3 +74,48 @@ const createNewUser = async (req, res) => {
     res.status(500).json({ status: false, error: "Internal Server Error" });
   }
 };
+
+const loginUser = async (req, res) => {
+  const { error } = loginValidation(req.body);
+  if (error !== undefined)
+    return res
+      .status(400)
+      .json({ status: true, error: error.details[0].message });
+
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(401)
+        .json({ status: false, error: "All fields are required" });
+    }
+    const user = await UserModel.findOne({ where: { email } });
+    if (!user || !user.isActive) {
+      return res
+        .status(401)
+        .json({ status: false, error: "Invalid credentials" });
+    }
+    const isPasswordMatch = await comparePasswords(
+      password,
+      user.password_hash
+    );
+    if (!isPasswordMatch) {
+      return res
+        .status(401)
+        .json({ status: false, error: "Invalid credentials" });
+    }
+    const token = jwt.sign(
+      { email: user.email, userId: user.userId },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.json({ status: true, message: "Logged in successfully", token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, error: "Internal Server Error" });
+  }
+};
+
+module.exports = { createNewUser, loginUser };
