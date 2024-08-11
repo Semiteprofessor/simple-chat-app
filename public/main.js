@@ -35,10 +35,15 @@ const addMessageToUI = (isOwnMessage, data) => {
   <li class="${isOwnMessage ? "message-right" : "message-left"}">
     <p class="message">
         ${data.message}
-        <span>${data.name} &#xb7; ${moment(data.dateTime).fromNow()}</span>
+        <span>${data.name} &#xb7; ${data.dateTime}</span>
     </p>
   </li>
   `;
 
   messageContainer.innerHTML += messageElement;
+  scrollToBottom();
+};
+
+const scrollToBottom = () => {
+  messageContainer.scrollTop = messageContainer.scrollHeight;
 };
