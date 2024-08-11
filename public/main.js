@@ -1,4 +1,3 @@
-
 const socket = io();
 
 const clientTotal = document.getElementById("clients-total");
