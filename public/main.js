@@ -30,12 +30,24 @@ socket.on("chat-message", (data) => {
   addMessageToUI(false, data);
 });
 
+const formatDateTime = (dateTime) => {
+  return new Intl.DateTimeFormat("en", {
+    weekday: "short",
+    month: "short",
+    year: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  }).format(new Date(dateTime));
+};
+
 const addMessageToUI = (isOwnMessage, data) => {
   const messageElement = `
   <li class="${isOwnMessage ? "message-right" : "message-left"}">
     <p class="message">
         ${data.message}
-        <span>${data.name} &#xb7; ${data.dateTime}</span>
+        <span>${data.name} &#xb7; ${formatDateTime(data.dateTime)}</span>
     </p>
   </li>
   `;
